@@ -1,0 +1,23 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+:root,[data-theme=dark]{--ink:5 5 5;--coal:16 16 16;--fg:255 255 255;--gold:255 215 0;--g1:#FFD700;--g2:#B8860B;--line:#2a2a2a}
+[data-theme=light]{--ink:250 248 242;--coal:255 255 255;--fg:24 24 24;--gold:138 98 0;--g1:#8a6200;--g2:#B8860B;--line:#d9d4c7}
+.theme-dark{--ink:5 5 5;--coal:16 16 16;--fg:255 255 255;--gold:255 215 0;--g1:#FFD700;--g2:#B8860B;--line:#2a2a2a;color:rgb(var(--fg))}
+body{background:rgb(var(--ink));color:rgb(var(--fg));font-family:Inter,sans-serif;transition:background-color .25s,color .25s}
+h1,h2,h3{font-family:Poppins,sans-serif}
+::selection{background:#B8860B;color:#fff}
+:focus-visible{outline:2px solid rgb(var(--gold));outline-offset:2px}
+a,button{transition:color .2s,border-color .2s,transform .15s,opacity .2s}
+.gold-text{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;color:transparent}
+.btn-gold{background:linear-gradient(135deg,#FFD700,#B8860B);color:#050505;font-weight:600;padding:.7rem 1.4rem;border-radius:.5rem;display:inline-block}
+.btn-line{border:1px solid #B8860B;color:rgb(var(--gold));font-weight:600;padding:.7rem 1.4rem;border-radius:.5rem;display:inline-block}
+.btn-gold:hover,.btn-line:hover{transform:translateY(-1px)}
+.btn-gold:active,.btn-line:active{transform:translateY(0)}
+.btn-gold:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.field{width:100%;background:rgb(var(--coal));border:1px solid var(--line);border-radius:.5rem;padding:.65rem .8rem}
+.field:focus{outline:2px solid rgb(var(--gold));border-color:transparent}
+.candles{position:absolute;inset:0;display:flex;align-items:flex-end;gap:14px;padding:0 4%;opacity:.35}
+.candles i{flex:1;background:#00E676;animation:grow 4s ease-in-out infinite alternate}
+.candles i:nth-child(3n){background:#FF1744}
+@keyframes grow{from{height:18%}to{height:70%}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.candles i{height:40%}}
+html{-webkit-text-size-adjust:100%}img,video,iframe{max-width:100%}body{overflow-x:hidden}table{min-width:560px}

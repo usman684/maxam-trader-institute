@@ -1,0 +1,1 @@
+export default function Skeleton() { return <div className='max-w-3xl mx-auto px-4 py-16 grid gap-3 animate-pulse'><div className='h-10 w-2/3 bg-coal rounded'/><div className='h-4 bg-coal rounded'/><div className='h-4 w-5/6 bg-coal rounded'/><div className='h-40 bg-coal rounded'/></div> }
