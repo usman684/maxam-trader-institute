@@ -7,6 +7,7 @@ import { Course } from '../models/index.js'
 import { Lesson, Progress } from '../models/learn.js'
 import { Certificate } from '../models/cert.js'
 import { protect, allow } from '../lib/auth.js'
+import { origin } from '../lib/mail.js'
 const r = Router(), admin = [protect, allow('admin', 'superadmin')]
 const wrap = fn => (req, res) => fn(req, res).catch(e => res.status(500).json({ message: e.message }))
 r.get('/admin/courses', admin, wrap(async (req, res) => res.json(await Course.find().sort('order'))))
@@ -30,7 +31,7 @@ r.get('/verify/:id', wrap(async (req, res) => {
 r.get('/certificates/:id/pdf', protect, wrap(async (req, res) => {
   const c = await Certificate.findOne({ certId: req.params.id })
   if (!c || (String(c.user) !== String(req.user._id) && !['admin', 'superadmin'].includes(req.user.role))) return res.status(403).json({ message: 'Not allowed' })
-  const origin = (process.env.CLIENT_ORIGIN || '').split(',')[0], qr = await QRCode.toBuffer(`${origin}/verify?id=${c.certId}`, { margin: 1 })
+  const qr = await QRCode.toBuffer(`${origin()}/verify?id=${c.certId}`, { margin: 1 })
   const d = new PDFDocument({ size: 'A4', layout: 'landscape', margin: 0 }); res.setHeader('Content-Type', 'application/pdf'); res.setHeader('Content-Disposition', `attachment; filename=${c.certId}.pdf`); d.pipe(res)
   const W = d.page.width, H = d.page.height, gold = '#B8860B'
   d.rect(0, 0, W, H).fill('#050505'); d.rect(20, 20, W - 40, H - 40).lineWidth(3).stroke('#FFD700'); d.rect(30, 30, W - 60, H - 60).lineWidth(1).stroke(gold)

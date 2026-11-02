@@ -4,8 +4,8 @@
  "version": "1.0.0",
  "type": "module",
  "scripts": {
-  "dev": "node dev.js",
-  "seed:admin": "node scripts/createAdmin.js"
+  "dev": "node --env-file=.env dev.js",
+  "seed:admin": "node --env-file=.env scripts/createAdmin.js"
  },
  "dependencies": {
   "bcryptjs": "^2.4.3",

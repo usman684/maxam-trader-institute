@@ -1,6 +1,10 @@
 import nodemailer from 'nodemailer'
 import crypto from 'crypto'
-export const origin = () => (process.env.CLIENT_ORIGIN || '').split(',')[0]
+export const origin = () => {
+  const o = (process.env.CLIENT_ORIGIN || '').split(',')[0].trim().replace(/\/+$/, '')
+  if (!o) return 'http://localhost:5173'
+  return /^https?:\/\//.test(o) ? o : 'https://' + o
+}
 export const hash = t => crypto.createHash('sha256').update(t).digest('hex')
 const shell = body => `<div style="font-family:Arial;max-width:520px;margin:auto"><h2 style="color:#B8860B">MAXAM TRADER INSTITUTE</h2>${body}<p style="color:#888;font-size:12px">Learn. Trade. Earn. Repeat.</p></div>`
 // Never throws. If SMTP is not configured the email is skipped.

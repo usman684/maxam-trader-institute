@@ -1,7 +1,31 @@
-// Edit these values directly, or set them from Admin > Manage site > settings.
-// Values saved in admin settings override these when they are not empty.
 export default {
-  social: { facebook: '', instagram: '', youtube: '', tiktok: '', x: '', linkedin: '', telegram: '' }, // paste full https:// links
-  office: { building: '', floor: '', address: '', area: '', city: '', province: '', postal: '', hours: '', phone: '', email: '', manager: '', mapEmbed: '', directions: '' },
-  contact: { whatsapp: '' } // e.g. +92 300 0000000
-}
+  social: {
+    facebook: "https://www.facebook.com/share/1DKsFkizNT/",
+    instagram: "https://www.instagram.com/maxameducation?obrf=cjZ1MmgxZ3FiZW9h",
+    youtube: "https://youtube.com/@maxamtradingacademy?si=SmvXQxqdsQ8Egk-5",
+    tiktok: "https://www.tiktok.com/@maxam.education2?_r=1&_t=ZS-9B2zDxVUE66",
+    x: "",
+    linkedin: "",
+    telegram: "",
+  },
+
+  office: {
+    building: "Alhafeez Executive Plaza",
+    floor: "Third Floor",
+    address: "Firdous Market",
+    area: "",
+    city: "Lahore",
+    province: "Punjab",
+    postal: "",
+    hours: "",
+    phone: "",
+    email: "",
+    manager: "",
+    mapEmbed: "",
+    directions: "",
+  },
+
+  contact: {
+    whatsapp: "",
+  },
+};

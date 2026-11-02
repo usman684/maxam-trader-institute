@@ -50,8 +50,20 @@ r.post('/applications/receipt', wrap(async (req, res) => {
 const sup = [protect, allow('superadmin')]
 r.post('/auth/admin-login', wrap(async (req, res) => {
   const u = await User.findOne({ email: String(req.body.email || '').toLowerCase() }).select('+password')
-  if (!u || u.blocked || u.role === 'student' || !(await bcrypt.compare(req.body.password || '', u.password))) return res.status(401).json({ message: 'Invalid team login' })
+  const why = !u ? 'no account with this email' : u.blocked ? 'account is blocked' : u.role === 'student' ? 'this is a student account (role: student)' : !(await bcrypt.compare(req.body.password || '', u.password)) ? 'wrong password' : ''
+  if (why) { if (process.env.NODE_ENV !== 'production') console.log('team login failed:', why); return res.status(401).json({ message: 'Invalid team login' }) }
   res.json({ token: sign(u), user: { id: u._id, name: u.name, role: u.role } })
+}))
+r.patch('/admin/users/role', sup, wrap(async (req, res) => {
+  const { email, role } = req.body
+  if (!['admin', 'mentor', 'staff', 'student'].includes(role)) return res.status(400).json({ message: 'Choose a role' })
+  const u = await User.findOne({ email: String(email || '').toLowerCase() }); if (!u) return res.status(404).json({ message: 'No user with this email' })
+  if (u.role === 'superadmin') return res.status(400).json({ message: 'The Super Admin role cannot be changed here' })
+  u.role = role; await u.save(); res.json({ email: u.email, role: u.role })
+}))
+r.patch('/admin/users/:id/block', sup, wrap(async (req, res) => {
+  const u = await User.findById(req.params.id); if (!u || u.role === 'superadmin') return res.status(400).json({ message: 'Not allowed' })
+  u.blocked = !u.blocked; await u.save(); res.json({ blocked: u.blocked })
 }))
 r.get('/admin/users', sup, wrap(async (q, s) => s.json(await User.find({ role: { $ne: 'student' } }).select('name email role blocked createdAt').sort('-createdAt'))))
 r.post('/admin/users', sup, wrap(async (req, res) => {
