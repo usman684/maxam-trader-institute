@@ -25,20 +25,23 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
 
-  const links = base.map(([to, label]) => {
-    if (to === "/login" && user) {
-      return [
-        home(user),
-        ["admin", "superadmin"].includes(user.role)
-          ? "Admin Panel"
-          : ["mentor", "staff"].includes(user.role)
-            ? "Staff Panel"
-            : "My Dashboard",
-      ];
-    }
-
-    return [to, label];
-  });
+  // Existing navigation links are always retained.
+  // Logged-in users get an additional dashboard link.
+  const links = [
+    ...base,
+    ...(user
+      ? [
+          [
+            home(user),
+            ["admin", "superadmin"].includes(user.role)
+              ? "Admin Panel"
+              : ["mentor", "staff"].includes(user.role)
+                ? "Staff Panel"
+                : "My Dashboard",
+          ],
+        ]
+      : []),
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-ink/95 backdrop-blur border-b border-dgold/30">
